@@ -19,7 +19,7 @@ _Note: This screenshot demonstrates the agent's multi-turn memory, RAG-based pri
 **Video Demo:**
 _(Click play to see the multi-turn context, RAG retrieval, and FastAPI database capture in real-time)._
 
-<video src="assets/demo.mp4" controls="controls" width="800px"></video>
+https://github.com/user-attachments/assets/1a98ff86-6f4c-4030-b2ce-2ec00e6ea40d
 
 ## How to run locally
 
