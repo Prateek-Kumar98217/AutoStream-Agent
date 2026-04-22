@@ -11,9 +11,15 @@ This is a demo of a conversational AI agent that can be used to answer questions
 
 ## Agent in Action
 
-![AutoStream Agent Terminal Demo](images/terminal_demo.png)
+**Quick Glance:**
+![AutoStream Agent Terminal Demo](assets/terminal_demo.png)
 
 _Note: This screenshot demonstrates the agent's multi-turn memory, RAG-based pricing retrieval, and successful lead capture via the backend API._
+
+**Video Demo:**
+_(Click play to see the multi-turn context, RAG retrieval, and FastAPI database capture in real-time)._
+
+<video src="assets/demo.mp4" controls="controls" width="800px"></video>
 
 ## How to run locally
 

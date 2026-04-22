@@ -21,7 +21,7 @@ from demo.config import settings
 
 # Initialization of the vector store and the llm model
 vector_store = AgentVectorStore(settings.STORE_DIR, api_key=settings.GEMINI_API_KEY)
-model = ChatGoogleGenerativeAI(model="gemini-flash-latest", api_key=settings.GEMINI_API_KEY)
+model = ChatGoogleGenerativeAI(model="gemma-4-31b-it", api_key=settings.GEMINI_API_KEY)
 
 # Basic internal state defination
 class MessageState(TypedDict):
