@@ -21,7 +21,7 @@ from demo.config import settings
 
 # Initialization of the vector store and the llm model
 vector_store = AgentVectorStore(settings.STORE_DIR, api_key=settings.GEMINI_API_KEY)
-model = ChatGoogleGenerativeAI(model="gemma-4-31b-it", api_key=settings.GEMINI_API_KEY)
+model = ChatGoogleGenerativeAI(model="gemini-flash-latest", api_key=settings.GEMINI_API_KEY)
 
 # Basic internal state defination
 class MessageState(TypedDict):
@@ -31,12 +31,26 @@ class MessageState(TypedDict):
 # Tool definations
 @tool
 def retrieve_context(query: str) -> str:
-    """Retrieve data from the knowledge base"""
+    """
+    Searches the AutoStream knowledge base for product pricing, features, and company policies.
+    Call this tool whenever the user asks a factual question about the application.
+    
+    Args:
+        query (str): The specific search query or question from the user.
+    """
     return vector_store.search(query)
 
 @tool
 def capture_lead(name: str, email: str, platform: str):
-    """API tool to send lead data to backend"""
+    """
+    Transmits qualified lead data to the backend REST API for database storage.
+    CRITICAL: Only call this tool AFTER you have explicitly gathered all three arguments from the user.
+    
+    Args:
+        name (str): The user's full or provided name.
+        email (str): The user's email address.
+        platform (str): The content creation platform the user operates on (e.g., YouTube, TikTok).
+    """
     try:
         response = requests.post(settings.mock_backend_url, json={"name": name, "email": email, "platform": platform})
         return response.json()
