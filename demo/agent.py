@@ -1,5 +1,13 @@
+"""
+This module contains the orchestrator logic for the agent.
+It defines the tools and the node graph for the agent(sepration of tool definations and graph logic, can be implemented later on).
+Currently uses google's "gemma-4-31b" as it offers more quota for testing purposes, along woth tool calling functionality.
+"""
+
+
 import operator
 import requests
+
 from typing_extensions import Annotated, TypedDict
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.tools import tool
@@ -11,15 +19,16 @@ from demo.core.rag import AgentVectorStore
 from demo.core.prompt import SYSTEM_PROMPT
 from demo.config import settings
 
+# Initialization of the vector store and the llm model
 vector_store = AgentVectorStore(settings.STORE_DIR, api_key=settings.GEMINI_API_KEY)
-vector_store.ingest_directory("data/knowledge_base")
-
 model = ChatGoogleGenerativeAI(model="gemma-4-31b-it", api_key=settings.GEMINI_API_KEY)
 
+# Basic internal state defination
 class MessageState(TypedDict):
     messages: Annotated[list[AnyMessage], operator.add]
     llm_calls: int
 
+# Tool definations
 @tool
 def retrieve_context(query: str) -> str:
     """Retrieve data from the knowledge base"""
@@ -38,6 +47,7 @@ tools =[retrieve_context, capture_lead]
 tools_by_name = {t.name: t for t in tools}
 model_with_tools = model.bind_tools(tools)
 
+# Node definations
 def llm_node(state: MessageState) -> MessageState:
     messages = [
         model_with_tools.invoke(
@@ -66,6 +76,7 @@ def should_continue(state: MessageState):
     else:
         return END
 
+# Agent defination and assembly
 agent_builder = StateGraph(MessageState)
 
 agent_builder.add_node("llm_node", llm_node)

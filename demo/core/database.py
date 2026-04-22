@@ -1,8 +1,17 @@
+"""
+This module is designed a as mock interface for the lead capture functionality of the agent.
+It uses SQLite database as a local placeholder, but the design is intended to be easily replaceable with a real 
+backend service.
+But something like SQLAlchemy or other database ORM with better integration with FastAPI would be a better 
+choice for production.
+"""
+
 import sqlite3
 import os
 
 class LeadDB:
     def __init__(self, db_path:str):
+        """Initialize the database with the given path"""
         self.db_path = db_path
         self.init_db()
 
@@ -41,6 +50,7 @@ class LeadDB:
             return False
 
     def get_leads(self) -> list[dict]:
+        """Retrieve all leads from the database"""
         with sqlite3.connect(self.db_path) as conn:
             conn.row_factory = sqlite3.Row
             cursor = conn.cursor()

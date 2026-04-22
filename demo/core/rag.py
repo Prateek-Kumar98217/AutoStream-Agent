@@ -1,3 +1,9 @@
+"""
+A custom RAG store class to abstract the functionality and decouple it from the agent design and
+implementation, that allows for easy switching of embedding models, vector stores and other RAG essentials for better performance and scaling without clutering or modifying the agent.
+"""
+
+
 import os
 import json
 from langchain_core.documents import Document
@@ -7,6 +13,7 @@ from langchain_chroma import Chroma
 
 class AgentVectorStore:
     def __init__(self, store_directory: str = "data/chroma_db", api_key: str | None = None):
+        """Initialize the vector store, with embedding model, chunker and the store"""
         self.store_directory = store_directory
         self.embeddings = GoogleGenerativeAIEmbeddings(model="gemini-embedding-001", api_key=api_key)
         self.text_splitter = RecursiveCharacterTextSplitter(chunk_size=200, chunk_overlap=50)
@@ -15,9 +22,9 @@ class AgentVectorStore:
             embedding_function=self.embeddings,
             persist_directory=self.store_directory,
         )
-        self.ingest_directory("data/knowledge_base")
 
     def ingest_file(self, file_path: str) -> str:
+        """Ingest a single file into the vector store, with support for .md and .json files.(based on requirements, can be easily expanded to support more file formats)"""
         if not os.path.exists(file_path):
             return f"Error: {file_path} not found."
         
@@ -41,6 +48,7 @@ class AgentVectorStore:
         return "Failed to ingest file."
 
     def ingest_directory(self, directory: str) ->str:
+        """Ingest all files from the given directory into the vector store(uses ingest_file internally)"""
         if not os.path.exists(directory):
             os.makedirs(directory, exist_ok=True)
             return f"Empty directory created, please add documents and try again."

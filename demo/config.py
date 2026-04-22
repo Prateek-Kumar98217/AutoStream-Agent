@@ -1,3 +1,9 @@
+"""
+This modules acts as the central configuration management for the entire application.
+It uses pydantic_settings to load the environment variables safely along with type checking.
+"""
+
+
 from pydantic_settings import BaseSettings, SettingsConfigDict
 import os
 
@@ -17,4 +23,5 @@ class AgentSettings(BaseSettings):
     def mock_backend_url(self) -> str:
         return os.path.join(self.BASE_BACKEND, "leads")
 
+# Singleton of the AgentSettings class, used as the single source of truth for configuration.
 settings = AgentSettings()

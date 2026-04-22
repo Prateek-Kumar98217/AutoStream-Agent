@@ -1,3 +1,11 @@
+"""
+Main script for the demo.
+Setups up the mock api endpoint as a daemon thread.
+The agent then uses this endpoint to capture leads for verification and testing purposes.
+Use multiturn conversation to test the agent's capabilities.
+"""
+
+
 from langchain_core.messages import HumanMessage
 from demo.agent import agent
 import threading
