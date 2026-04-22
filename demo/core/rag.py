@@ -3,7 +3,7 @@ import json
 from langchain_core.documents import Document
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_google_genai import GoogleGenerativeAIEmbeddings
-from langchain_community.vectorstores import Chroma
+from langchain_chroma import Chroma
 
 class AgentVectorStore:
     def __init__(self, store_directory: str = "data/chroma_db", api_key: str | None = None):
@@ -15,6 +15,7 @@ class AgentVectorStore:
             embedding_function=self.embeddings,
             persist_directory=self.store_directory,
         )
+        self.ingest_directory("data/knowledge_base")
 
     def ingest_file(self, file_path: str) -> str:
         if not os.path.exists(file_path):

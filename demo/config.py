@@ -4,17 +4,17 @@ import os
 class AgentSettings(BaseSettings):
     model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8", extra="ignore")
 
-    gemini_api_key: str
-    db_dir: str
-    vector_store_dir: str
-    mock_backend: str
+    GEMINI_API_KEY: str
+    DB_DIR: str
+    STORE_DIR: str
+    BASE_BACKEND: str
 
     @property
     def db_path(self) -> str:
-        return os.path.join(self.db_dir, "mock_leads.db")
+        return os.path.join(self.DB_DIR, "mock_leads.db")
 
     @property
     def mock_backend_url(self) -> str:
-        return os.path.join(self.mock_backend, "leads")
+        return os.path.join(self.BASE_BACKEND, "leads")
 
 settings = AgentSettings()

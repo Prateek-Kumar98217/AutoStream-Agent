@@ -7,13 +7,14 @@ from langgraph.graph import START, END, StateGraph
 from langchain_core.messages import AnyMessage, SystemMessage, ToolMessage
 from langgraph.checkpoint.memory import InMemorySaver
 
-from core.rag import AgentVectorStore
-from core.prompt import SYSTEM_PROMPT
-from config import settings
+from demo.core.rag import AgentVectorStore
+from demo.core.prompt import SYSTEM_PROMPT
+from demo.config import settings
 
-vector_store = AgentVectorStore(settings.vector_store_dir)
+vector_store = AgentVectorStore(settings.STORE_DIR, api_key=settings.GEMINI_API_KEY)
+vector_store.ingest_directory("data/knowledge_base")
 
-model = ChatGoogleGenerativeAI(model="gemini-2.5-flash", api_key=settings.gemini_api_key)
+model = ChatGoogleGenerativeAI(model="gemma-4-31b-it", api_key=settings.GEMINI_API_KEY)
 
 class MessageState(TypedDict):
     messages: Annotated[list[AnyMessage], operator.add]
@@ -21,7 +22,7 @@ class MessageState(TypedDict):
 
 @tool
 def retrieve_context(query: str) -> str:
-    """Retrieve relevant information based on query"""
+    """Retrieve data from the knowledge base"""
     return vector_store.search(query)
 
 @tool

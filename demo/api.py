@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
-from config import settings
-from core.database import LeadDB
+from demo.config import settings
+from demo.core.database import LeadDB
 
 app = FastAPI(title="Mock API Endpoints", version="1.0.0")
 lead_db = LeadDB(settings.db_path)
