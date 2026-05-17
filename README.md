@@ -1,6 +1,6 @@
 # AutoStream Converstional AI Agent
 
-This is a demo of a conversational AI agent that can be used to answer questions about the AutoStream product and capture leads. It is built using LangGraph and demonstrates the use of LLMs for various tasks.
+This is a demo of a conversational AI agent that can be used to answer questions about the AutoStream product and capture leads. It is built using LangGraph and demonstrates the use of LLMs for various tasks. Made as an intership assignment.
 
 ## Features
 
